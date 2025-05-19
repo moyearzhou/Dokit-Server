@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Table, Breadcrumb, Button, Space, Tooltip } from 'antd';
+import { Table, Breadcrumb, Button, Space, Tooltip, message, Result } from 'antd';
 import { 
   FolderOutlined, 
   FileOutlined, 
@@ -10,6 +10,7 @@ import {
   DownloadOutlined
 } from '@ant-design/icons';
 import { format } from 'date-fns';
+import { useServer } from '../context/ServerContext';
 
 const FileSyncContainer = styled.div`
   display: flex;
@@ -50,24 +51,42 @@ const FileIcon = styled.span`
 `;
 
 function FileSync() {
+  const { serverConfig } = useServer();
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentPath, setCurrentPath] = useState('');
+  const [currentPath, setCurrentPath] = useState('/root/com.didichuxing.doraemondemo');
+  const [error, setError] = useState(null);
+
+  const fetchFileList = async (path) => {
+    if (!serverConfig.ip || !serverConfig.port) {
+      setError('请先配置服务器IP和端口');
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`http://${serverConfig.ip}:${serverConfig.port}/getFileList?dirPath=${encodeURIComponent(path)}`);
+      if (!response.ok) {
+        throw new Error(`请求失败: ${response.status}`);
+      }
+      const data = await response.json();
+      setFileData(data.data);
+      setCurrentPath(data.data.dirPath);
+    } catch (error) {
+      console.error('加载文件列表失败:', error);
+      setError(error.message);
+      message.error('加载文件列表失败');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // 模拟从API获取数据
-    fetch('/filelist.json')
-      .then(response => response.json())
-      .then(data => {
-        setFileData(data.data);
-        setCurrentPath(data.data.dirPath);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('加载文件列表失败:', error);
-        setLoading(false);
-      });
-  }, []);
+    fetchFileList(currentPath);
+  }, [serverConfig.ip, serverConfig.port]);
 
   const formatFileSize = (size) => {
     if (!size || size === '0.0B') return '0 B';
@@ -81,8 +100,18 @@ function FileSync() {
   };
 
   const handlePathClick = (path) => {
-    // 在实际应用中，这里应该请求新路径的数据
-    console.log('导航到路径:', path);
+    fetchFileList(path);
+  };
+
+  const handleRefresh = () => {
+    fetchFileList(currentPath);
+  };
+
+  const handleParentDirectory = () => {
+    const parentPath = currentPath.split('/').slice(0, -1).join('/');
+    if (parentPath) {
+      fetchFileList(parentPath);
+    }
   };
 
   const columns = [
@@ -120,7 +149,13 @@ function FileSync() {
       render: (_, record) => (
         <Space size="small">
           {record.fileType === 'folder' ? (
-            <Button type="link" size="small">打开</Button>
+            <Button 
+              type="link" 
+              size="small"
+              onClick={() => fetchFileList(`${currentPath}/${record.fileName}`)}
+            >
+              打开
+            </Button>
           ) : (
             <Button type="link" size="small">下载</Button>
           )}
@@ -130,6 +165,21 @@ function FileSync() {
   ];
 
   const pathParts = currentPath.split('/').filter(Boolean);
+
+  if (error) {
+    return (
+      <Result
+        status="error"
+        title="加载失败"
+        subTitle={error}
+        extra={[
+          <Button key="retry" type="primary" onClick={() => fetchFileList(currentPath)}>
+            重试
+          </Button>
+        ]}
+      />
+    );
+  }
 
   return (
     <FileSyncContainer>
@@ -142,10 +192,16 @@ function FileSync() {
             <Button icon={<DownloadOutlined />} />
           </Tooltip>
           <Tooltip title="返回上级">
-            <Button icon={<ArrowUpOutlined />} />
+            <Button 
+              icon={<ArrowUpOutlined />} 
+              onClick={handleParentDirectory}
+            />
           </Tooltip>
           <Tooltip title="刷新">
-            <Button icon={<ReloadOutlined />} />
+            <Button 
+              icon={<ReloadOutlined />} 
+              onClick={handleRefresh}
+            />
           </Tooltip>
         </Space>
       </ToolbarContainer>
@@ -153,7 +209,7 @@ function FileSync() {
       <PathContainer>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <a onClick={() => handlePathClick('/')}>根目录</a>
+            <a onClick={() => handlePathClick('/root')}>根目录</a>
           </Breadcrumb.Item>
           {pathParts.map((part, index) => {
             const path = `/${pathParts.slice(0, index + 1).join('/')}`;
