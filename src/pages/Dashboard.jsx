@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
+import ConfigDialog from '../components/ConfigDialog/ConfigDialog';
+import { useServer } from '../context/ServerContext';
 
 const EmptyStateContainer = styled.div`
   display: flex;
@@ -42,11 +44,32 @@ const StyledButton = styled(Button)`
 `;
 
 function Dashboard() {
+  const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false);
+  const { serverConfig } = useServer();
+
+  const handleOpenDialog = () => {
+    setIsConfigDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsConfigDialogOpen(false);
+  };
+
   return (
     <EmptyStateContainer>
       <EmptyBox />
-      <EmptyText>未连接任何设备，请先在手机上打开相关服务，并属于其ip与端口号</EmptyText>
-      <StyledButton type="primary">立即设置</StyledButton>
+      <EmptyText>
+        {serverConfig.ip
+          ? `当前连接：${serverConfig.ip}:${serverConfig.port}`
+          : '未连接任何设备，请先在手机上打开相关服务，并设置其IP与端口号'}
+      </EmptyText>
+      <StyledButton type="primary" onClick={handleOpenDialog}>
+        {serverConfig.ip ? '修改设置' : '立即设置'}
+      </StyledButton>
+      <ConfigDialog
+        open={isConfigDialogOpen}
+        onClose={handleCloseDialog}
+      />
     </EmptyStateContainer>
   );
 }
