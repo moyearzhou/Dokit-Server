@@ -73,6 +73,9 @@ function FileSync() {
         throw new Error(`请求失败: ${response.status}`);
       }
       const data = await response.json();
+      if (data.code !== 200) {
+        throw new Error(data.message || '获取文件列表失败');
+      }
       setFileData(data.data);
       setCurrentPath(data.data.dirPath);
     } catch (error) {
@@ -105,13 +108,20 @@ function FileSync() {
 
   const handleRefresh = () => {
     fetchFileList(currentPath);
+    message.success('刷新成功');
   };
 
   const handleParentDirectory = () => {
     const parentPath = currentPath.split('/').slice(0, -1).join('/');
     if (parentPath) {
       fetchFileList(parentPath);
+    } else {
+      message.warning('已经是根目录');
     }
+  };
+
+  const handleFolderClick = (path) => {
+    fetchFileList(`${currentPath}/${path}`);
   };
 
   const columns = [
@@ -120,7 +130,8 @@ function FileSync() {
       dataIndex: 'fileName',
       key: 'fileName',
       render: (text, record) => (
-        <span>
+        <span style={{ cursor: record.fileType === 'folder' ? 'pointer' : 'default' }}
+              onClick={() => record.fileType === 'folder' && handleFolderClick(text)}>
           <FileIcon isFolder={record.fileType === 'folder'}>
             {record.fileType === 'folder' ? <FolderOutlined /> : <FileOutlined />}
           </FileIcon>
@@ -152,7 +163,7 @@ function FileSync() {
             <Button 
               type="link" 
               size="small"
-              onClick={() => fetchFileList(`${currentPath}/${record.fileName}`)}
+              onClick={() => handleFolderClick(record.fileName)}
             >
               打开
             </Button>
@@ -209,26 +220,26 @@ function FileSync() {
       <PathContainer>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <a onClick={() => handlePathClick('/root')}>根目录</a>
+            <a onClick={() => handlePathClick('/root')}>root</a>
           </Breadcrumb.Item>
-          {pathParts.map((part, index) => {
-            const path = `/${pathParts.slice(0, index + 1).join('/')}`;
-            return (
-              <Breadcrumb.Item key={path}>
-                <a onClick={() => handlePathClick(path)}>{part}</a>
-              </Breadcrumb.Item>
-            );
-          })}
+          {pathParts.slice(1).map((part, index) => (
+            <Breadcrumb.Item key={index}>
+              <a onClick={() => handlePathClick(`/root/${pathParts.slice(1, index + 2).join('/')}`)}
+              >
+                {part}
+              </a>
+            </Breadcrumb.Item>
+          ))}
         </Breadcrumb>
       </PathContainer>
-      
+
       <StyledTable
         columns={columns}
         dataSource={fileData?.fileList || []}
         rowKey="fileName"
         loading={loading}
-        pagination={false}
         rowClassName={record => record.fileType === 'folder' ? 'folder-row' : 'file-row'}
+        pagination={false}
       />
     </FileSyncContainer>
   );
