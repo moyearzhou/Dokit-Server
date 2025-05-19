@@ -92,6 +92,7 @@ function FileSync() {
   }, [serverConfig.ip, serverConfig.port]);
 
   const formatFileSize = (size) => {
+    if (!size) return '-';
     if (!size || size === '0.0B') return '0 B';
     return size;
   };
