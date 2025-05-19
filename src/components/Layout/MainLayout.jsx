@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import Dashboard from '../../pages/Dashboard';
+import FileSync from '../../pages/FileSync';
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -34,8 +35,7 @@ function MainLayout() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/file-management" element={<Dashboard />} />
-            <Route path="/product-management" element={<Dashboard />} />
+            <Route path="/file-sync" element={<FileSync />} />
           </Routes>
         </MainContent>
       </ContentWrapper>

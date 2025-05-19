@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { 
   AppstoreOutlined, 
@@ -45,6 +45,8 @@ const MenuItem = styled.li`
   cursor: pointer;
   display: flex;
   align-items: center;
+  border-radius: 4px;
+  margin: 4px 8px;
   
   &:hover {
     background-color: rgba(255, 64, 129, 0.1);
@@ -53,7 +55,6 @@ const MenuItem = styled.li`
   &.active {
     background-color: rgba(255, 64, 129, 0.2);
     color: var(--primary-color);
-    border-left: 3px solid var(--primary-color);
   }
   
   .anticon {
@@ -70,6 +71,8 @@ const MenuLink = styled(Link)`
 `;
 
 function Sidebar() {
+  const location = useLocation();
+  
   return (
     <SidebarContainer>
       <LogoContainer>
@@ -78,28 +81,22 @@ function Sidebar() {
         </Logo>
       </LogoContainer>
       <MenuContainer>
-        <MenuItem>
+        <MenuItem className={location.pathname === '/' ? 'active' : ''}>
           <MenuLink to="/">
             <AppstoreOutlined />
             健康体检
           </MenuLink>
         </MenuItem>
-        <MenuItem>
+        <MenuItem className={location.pathname === '/dashboard' ? 'active' : ''}>
           <MenuLink to="/dashboard">
             <SettingOutlined />
             一键全控
           </MenuLink>
         </MenuItem>
-        <MenuItem>
-          <MenuLink to="/file-management">
+        <MenuItem className={location.pathname === '/file-sync' ? 'active' : ''}>
+          <MenuLink to="/file-sync">
             <FileTextOutlined />
             文件同步助手
-          </MenuLink>
-        </MenuItem>
-        <MenuItem>
-          <MenuLink to="/product-management">
-            <SettingOutlined />
-            产品管理
           </MenuLink>
         </MenuItem>
       </MenuContainer>

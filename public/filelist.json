@@ -1,0 +1,89 @@
+{
+  "code": 200,
+  "data": {
+    "dirPath": "/root/com.didichuxing.doraemondemo",
+    "fileList": [
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "cache",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747644898180"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "files",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747642990524"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "code_cache",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747652562193"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "databases",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747642023448"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "lib-main",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747642023476"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "app_webview",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747645128584"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "app_textures",
+        "fileSize": "",
+        "fileType": "folder",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747642838324"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "NewTextFile.txt",
+        "fileSize": "0.0B",
+        "fileType": "txt",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747653702899"
+      },
+      {
+        "dirPath": "/root/com.didichuxing.doraemondemo",
+        "fileName": "tesxt.png",
+        "fileSize": "0.0B",
+        "fileType": "png",
+        "fileUri": "",
+        "isRootPath": false,
+        "modifyTime": "1747653712847"
+      }
+    ]
+  }
+}
