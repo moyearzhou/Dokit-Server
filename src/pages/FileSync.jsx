@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Table, Breadcrumb, Button, Space, Tooltip, message, Result } from 'antd';
 import { 
@@ -50,12 +50,18 @@ const FileIcon = styled.span`
   color: ${props => props.isFolder ? '#ffc107' : '#2196f3'};
 `;
 
+const HiddenInput = styled.input`
+  display: none;
+`;
+
 function FileSync() {
   const { serverConfig } = useServer();
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPath, setCurrentPath] = useState('/root/com.didichuxing.doraemondemo');
   const [error, setError] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   const fetchFileList = async (path) => {
     if (!serverConfig.ip || !serverConfig.port) {
@@ -92,7 +98,6 @@ function FileSync() {
   }, [serverConfig.ip, serverConfig.port]);
 
   const formatFileSize = (size) => {
-    if (!size) return '-';
     if (!size || size === '0.0B') return '0 B';
     return size;
   };
@@ -125,38 +130,63 @@ function FileSync() {
     fetchFileList(`${currentPath}/${path}`);
   };
 
-  const handleDownload = async (fileName) => {
+  const handleDownload = (fileName) => {
     if (!serverConfig.ip || !serverConfig.port) {
       message.error('请先配置服务器IP和端口');
       return;
     }
 
     try {
-        const downloadUrl = `http://${serverConfig.ip}:${serverConfig.port}/downloadFile?dirPath=${encodeURIComponent(currentPath)}&fileName=${encodeURIComponent(fileName)}`;
-    
-        // 通过 Fetch 获取文件内容
-        const response = await fetch(downloadUrl);
-        if (!response.ok) throw new Error('下载失败');
-        
-        // 将响应转为 Blob
-        const blob = await response.blob();
-        
-        // 生成临时下载链接
-        const blobUrl = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.download = fileName; // 强制设置下载文件名
-        
-        // 必须将元素添加到 DOM 才能触发点击
-        document.body.appendChild(link);
-        link.click();
-        
-        // 清理资源
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
+      const downloadUrl = `http://${serverConfig.ip}:${serverConfig.port}/downloadFile?dirPath=${encodeURIComponent(currentPath)}&fileName=${encodeURIComponent(fileName)}`;
+      window.open(downloadUrl, '_blank');
+      message.success('开始下载文件');
     } catch (error) {
       console.error('下载文件失败:', error);
       message.error('下载文件失败');
+    }
+  };
+
+  const handleUploadClick = () => {
+    if (!serverConfig.ip || !serverConfig.port) {
+      message.error('请先配置服务器IP和端口');
+      return;
+    }
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('dirPath', currentPath);
+
+      const response = await fetch(`http://${serverConfig.ip}:${serverConfig.port}/uploadFile`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`上传失败: ${response.status}`);
+      }
+
+      const result = await response.json();
+      if (result.code !== 200) {
+        throw new Error(result.message || '上传失败');
+      }
+
+      message.success('上传成功');
+      handleRefresh();
+    } catch (error) {
+      console.error('上传文件失败:', error);
+      message.error('上传文件失败');
+    } finally {
+      setUploading(false);
+      // 清空文件输入框，允许重复选择同一个文件
+      event.target.value = '';
     }
   };
 
@@ -239,7 +269,11 @@ function FileSync() {
       <ToolbarContainer>
         <Space>
           <Tooltip title="上传">
-            <Button icon={<UploadOutlined />} />
+            <Button 
+              icon={<UploadOutlined />} 
+              onClick={handleUploadClick}
+              loading={uploading}
+            />
           </Tooltip>
           <Tooltip title="下载">
             <Button icon={<DownloadOutlined />} />
@@ -282,6 +316,12 @@ function FileSync() {
         loading={loading}
         rowClassName={record => record.fileType === 'folder' ? 'folder-row' : 'file-row'}
         pagination={false}
+      />
+
+      <HiddenInput
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
       />
     </FileSyncContainer>
   );
