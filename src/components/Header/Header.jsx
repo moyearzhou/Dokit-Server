@@ -18,6 +18,12 @@ const Logo = styled.div`
   font-weight: bold;
 `;
 
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+`;
+
 const NavMenu = styled.div`
   display: flex;
   gap: 20px;
@@ -39,7 +45,6 @@ const UserProfile = styled.div`
   
   .anticon {
     font-size: 20px;
-    margin-left: 8px;
   }
 `;
 
@@ -47,15 +52,17 @@ function Header() {
   return (
     <HeaderContainer>
       <Logo>CMkit</Logo>
-      <NavMenu>
-        <NavItem>首页</NavItem>
-        <NavItem>产品中心</NavItem>
-        <NavItem>控制台</NavItem>
-        <NavItem>运维管理</NavItem>
-      </NavMenu>
-      <UserProfile>
-        <UserOutlined />
-      </UserProfile>
+      <RightSection>
+        <NavMenu>
+          <NavItem>首页</NavItem>
+          <NavItem>产品中心</NavItem>
+          <NavItem>控制台</NavItem>
+          {/* <NavItem>运维管理</NavItem> */}
+        </NavMenu>
+        <UserProfile>
+          <UserOutlined />
+        </UserProfile>
+      </RightSection>
     </HeaderContainer>
   );
 }
