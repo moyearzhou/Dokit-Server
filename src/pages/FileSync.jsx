@@ -98,6 +98,7 @@ function FileSync() {
   }, [serverConfig.ip, serverConfig.port]);
 
   const formatFileSize = (size) => {
+    if (!size) return '-';
     if (!size || size === '0.0B') return '0 B';
     return size;
   };
@@ -130,16 +131,35 @@ function FileSync() {
     fetchFileList(`${currentPath}/${path}`);
   };
 
-  const handleDownload = (fileName) => {
+  const handleDownload = async (fileName) => {
     if (!serverConfig.ip || !serverConfig.port) {
       message.error('请先配置服务器IP和端口');
       return;
     }
 
     try {
-      const downloadUrl = `http://${serverConfig.ip}:${serverConfig.port}/downloadFile?dirPath=${encodeURIComponent(currentPath)}&fileName=${encodeURIComponent(fileName)}`;
-      window.open(downloadUrl, '_blank');
-      message.success('开始下载文件');
+        const downloadUrl = `http://${serverConfig.ip}:${serverConfig.port}/downloadFile?dirPath=${encodeURIComponent(currentPath)}&fileName=${encodeURIComponent(fileName)}`;
+    
+        // 通过 Fetch 获取文件内容
+        const response = await fetch(downloadUrl);
+        if (!response.ok) throw new Error('下载失败');
+        
+        // 将响应转为 Blob
+        const blob = await response.blob();
+        
+        // 生成临时下载链接
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileName; // 强制设置下载文件名
+        
+        // 必须将元素添加到 DOM 才能触发点击
+        document.body.appendChild(link);
+        link.click();
+        
+        // 清理资源
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
       console.error('下载文件失败:', error);
       message.error('下载文件失败');
