@@ -5,7 +5,8 @@ import {
   AppstoreOutlined, 
   FileTextOutlined, 
   SettingOutlined,
-  BoxPlotOutlined
+  BoxPlotOutlined,
+  ApiOutlined
 } from '@ant-design/icons';
 
 const SidebarContainer = styled.aside`
@@ -91,6 +92,12 @@ function Sidebar() {
           <MenuLink to="/dashboard">
             <SettingOutlined />
             一键全控
+          </MenuLink>
+        </MenuItem>
+        <MenuItem className={location.pathname === '/data-mock' ? 'active' : ''}>
+          <MenuLink to="/data-mock">
+            <ApiOutlined />
+            数据Mock
           </MenuLink>
         </MenuItem>
         <MenuItem className={location.pathname === '/file-sync' ? 'active' : ''}>

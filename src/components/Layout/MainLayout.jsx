@@ -5,6 +5,7 @@ import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import Dashboard from '../../pages/Dashboard';
 import FileSync from '../../pages/FileSync';
+import DataMock from '../../pages/DataMock/DataMock';
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ function MainLayout() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/data-mock" element={<DataMock />} />
             <Route path="/file-sync" element={<FileSync />} />
           </Routes>
         </MainContent>

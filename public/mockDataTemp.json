@@ -1,0 +1,117 @@
+{
+  "datalist": [
+    {
+      "_id": "5dc925a3e6173367388831e0",
+      "name": "模拟",
+      "desc": "模拟dokit",
+      "groupId": "",
+      "projectId": "5c8e04056144a626ff2542e344",
+      "categoryId": "5dc920a56de696654ec9b56b",
+      "path": "/dokit1",
+      "method": "GET",
+      "formatType": "json",
+      "params": {
+        "pathParams": [
+          {
+            "name": "api",
+            "value": "api.dj.login"
+          }
+        ]
+      },
+      "owner": {},
+      "interOwner": {},
+      "curStatus": {},
+      "createDate": "2019-11-11 17:10:59",
+      "categoryName": "用户",
+      "query": {
+        "api": "api.dj.login"
+      },
+      "sceneList": [
+        {
+          "_id": "5dca79a0cf77257a255a0fda",
+          "name": "场景2",
+          "desc": "",
+          "projectId": "5c8e04056144a626ff2542e344",
+          "interfaceId": "5dc925a3e6173367388831e0",
+          "createDate": 1573550496005
+        },
+        {
+          "_id": "5dca795bb073557a27024a24",
+          "name": "测试场景",
+          "desc": "",
+          "projectId": "5c8e04056144a626ff2542e344",
+          "interfaceId": "5dc925a3e6173367388831e0",
+          "createDate": 1573550427707
+        }
+      ]
+    },
+    {
+      "_id": "5dc92585b1b0846733194865",
+      "name": "测试接口1",
+      "desc": "",
+      "groupId": "",
+      "projectId": "5c8e04056144a626ff2542e344",
+      "categoryId": "5dc920a56de696654ec9b56b",
+      "path": "/inter1",
+      "method": "POST",
+      "formatType": "json",
+      "params": {
+        "pathParams": []
+      },
+      "owner": {
+        "_id": "5c87b096513b3e266f4027ca",
+        "name": "Moyear",
+        "displayName": "卢群(普惠产品技术部)",
+        "department": "普惠产品技术部",
+        "employeeNumber": "D00252",
+        "accountName": "luqun",
+        "authority": {
+          "admin": true
+        }
+      },
+      "interOwner": "",
+      "curStatus": {
+        "status": "new",
+        "date": "2019-11-11 17:10:29"
+      },
+      "createDate": "2019-11-11 17:10:29",
+      "categoryName": "用户",
+      "query": {},
+      "sceneList": []
+    },
+    {
+        "_id": "5dc92585b1b0846733194865",
+        "name": "测试接口1",
+        "desc": "",
+        "groupId": "",
+        "projectId": "5c8e04056144a626ff2542e344",
+        "categoryId": "5dc920a56de696654ec9b56b",
+        "path": "/getFileInfo",
+        "method": "POST",
+        "formatType": "json",
+        "params": {
+          "pathParams": []
+        },
+        "owner": {
+          "_id": "5c87b096513b3e266f4027ca",
+          "name": "Jsoner",
+          "displayName": "卢群(普惠产品技术部)",
+          "department": "普惠产品技术部",
+          "employeeNumber": "D00252",
+          "accountName": "luqun",
+          "authority": {
+            "admin": true
+          }
+        },
+        "interOwner": "",
+        "curStatus": {
+          "status": "new",
+          "date": "2019-11-11 17:10:29"
+        },
+        "createDate": "2019-11-11 17:10:29",
+        "categoryName": "用户",
+        "query": {},
+        "sceneList": []
+      }
+  ]
+}
