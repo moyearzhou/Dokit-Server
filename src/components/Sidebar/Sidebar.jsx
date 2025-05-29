@@ -86,7 +86,7 @@ function Sidebar() {
         <MenuItem className={location.pathname === '/' ? 'active' : ''}>
           <MenuLink to="/">
             <AppstoreOutlined />
-            健康体检
+            我的设备
           </MenuLink>
         </MenuItem>
         {/* <MenuItem className={location.pathname === '/dashboard' ? 'active' : ''}>
