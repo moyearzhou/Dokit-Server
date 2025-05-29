@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79c82c9a-955b-4cac-8340-1228af3d4ab9" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.jsx" afterDir="false" />
-    </list>
+    <list default="true" id="79c82c9a-955b-4cac-8340-1228af3d4ab9" name="更改" comment="[feat] 修改header名称" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,11 +70,24 @@
       <option name="presentableId" value="Default" />
       <updated>1747652928574</updated>
       <workItem from="1747652929948" duration="27000" />
-      <workItem from="1748486086494" duration="2310000" />
+      <workItem from="1748486086494" duration="2382000" />
     </task>
+    <task id="LOCAL-00001" summary="[feat] 修改header名称">
+      <option name="closed" value="true" />
+      <created>1748489581256</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1748489581256</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="[feat] 修改header名称" />
+    <option name="LAST_COMMIT_MESSAGE" value="[feat] 修改header名称" />
   </component>
 </project>
