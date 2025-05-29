@@ -58,7 +58,7 @@ function FileSync() {
   const { serverConfig } = useServer();
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentPath, setCurrentPath] = useState('/root/com.didichuxing.doraemondemo');
+  const [currentPath, setCurrentPath] = useState('/root/external');
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
@@ -72,6 +72,11 @@ function FileSync() {
 
     setLoading(true);
     setError(null);
+
+    // 处理根目录路径
+    if(path == "/root") {
+      path = "/root/";
+    }
 
     try {
       const response = await fetch(`http://${serverConfig.ip}:${serverConfig.port}/getFileList?dirPath=${encodeURIComponent(path)}`);
@@ -128,6 +133,10 @@ function FileSync() {
   };
 
   const handleFolderClick = (path) => {
+    if (currentPath === '/root/') {
+      fetchFileList(`${currentPath}${path}`);
+      return;
+    }
     fetchFileList(`${currentPath}/${path}`);
   };
 
