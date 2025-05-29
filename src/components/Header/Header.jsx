@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { UserOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -49,14 +50,15 @@ const UserProfile = styled.div`
 `;
 
 function Header() {
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
       <Logo>CodemaoKit</Logo>
       <RightSection>
         <NavMenu>
-          <NavItem>首页</NavItem>
-          <NavItem>产品中心</NavItem>
-          <NavItem>控制台</NavItem>
+          <NavItem onClick={() => navigate('/dashboard')}>首页</NavItem>
+          {/* <NavItem>产品中心</NavItem>
+          <NavItem>控制台</NavItem> */}
           {/* <NavItem>运维管理</NavItem> */}
         </NavMenu>
         <UserProfile>
