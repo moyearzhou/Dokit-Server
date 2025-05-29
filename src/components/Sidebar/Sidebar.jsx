@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { 
   AppstoreOutlined, 
@@ -73,11 +73,12 @@ const MenuLink = styled(Link)`
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
   
   return (
     <SidebarContainer>
       <LogoContainer>
-        <Logo>
+        <Logo onClick={() => navigate('/dashboard')}>
           <BoxPlotOutlined style={{ fontSize: '24px' }} />
         </Logo>
       </LogoContainer>
@@ -88,12 +89,12 @@ function Sidebar() {
             健康体检
           </MenuLink>
         </MenuItem>
-        <MenuItem className={location.pathname === '/dashboard' ? 'active' : ''}>
+        {/* <MenuItem className={location.pathname === '/dashboard' ? 'active' : ''}>
           <MenuLink to="/dashboard">
             <SettingOutlined />
             一键全控
           </MenuLink>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem className={location.pathname === '/data-mock' ? 'active' : ''}>
           <MenuLink to="/data-mock">
             <ApiOutlined />
