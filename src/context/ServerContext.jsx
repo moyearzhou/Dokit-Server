@@ -7,13 +7,18 @@ export function useServer() {
 }
 
 export function ServerProvider({ children }) {
-  const [serverConfig, setServerConfig] = useState({
-    ip: '',
-    port: ''
+  const [serverConfig, setServerConfig] = useState(() => {
+    const savedConfig = localStorage.getItem('serverConfig');
+    return savedConfig ? JSON.parse(savedConfig) : {
+      ip: '',
+      port: ''
+    };
   });
 
   const updateServerConfig = (ip, port) => {
-    setServerConfig({ ip, port });
+    const newConfig = { ip, port };
+    setServerConfig(newConfig);
+    localStorage.setItem('serverConfig', JSON.stringify(newConfig));
   };
 
   return (
