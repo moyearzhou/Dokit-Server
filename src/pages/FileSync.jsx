@@ -254,13 +254,9 @@ function FileSync() {
               打开
             </Button>
           ) : (
-            <Button 
-              type="link" 
-              size="small"
-              onClick={() => handleDownload(record.fileName)}
-            >
-              下载
-            </Button>
+            <Tooltip title="下载">
+              <Button icon={<DownloadOutlined />} onClick={() => handleDownload(record.fileName)} />
+            </Tooltip>
           )}
         </Space>
       ),
