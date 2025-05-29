@@ -14,7 +14,7 @@ const HeaderContainer = styled.header`
 `;
 
 const Logo = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 `;
 
@@ -51,7 +51,7 @@ const UserProfile = styled.div`
 function Header() {
   return (
     <HeaderContainer>
-      <Logo>CMkit</Logo>
+      <Logo>CodemaoKit</Logo>
       <RightSection>
         <NavMenu>
           <NavItem>首页</NavItem>
